@@ -1,22 +1,35 @@
 package com.centrale.rest.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.centrale.rest.service.DataService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.Map;
+
+@Controller
+@ResponseBody
 @RequestMapping(value = "random")
+@AllArgsConstructor
 public class BasicController {
+
+    private DataService dataService;
 
     @GetMapping(value = "/double")
     public double getRandomDouble(){
-        return Math.random() * 10;
+        return Math.random() * 10D;
     }
 
     @GetMapping(value = "/long/{min}/{max}")
-    public long getRandomIntFromInterval(@PathVariable int min, @PathVariable int max){
-        return Math.round(Math.random() * (max - min) + min);
+    public Long getRandomIntFromInterval(@PathVariable int min, @PathVariable int max){
+        Long random =  Math.round(Math.random() * (max - min) + min);
+        dataService.addOccurrence(random);
+        return random;
+    }
+
+    @GetMapping(value = "/statistics")
+    public Map<Long, Integer> getStatisticsSeries(){
+        return dataService.getOccurences();
     }
 
 }
