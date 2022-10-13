@@ -15,6 +15,11 @@ public class BasicController {
 
     private DataService dataService;
 
+    @GetMapping(value = "")
+    public String get(){
+        return "Hi from /random";
+    }
+
     @GetMapping(value = "/double")
     public double getRandomDouble(){
         return Math.random() * 10D;
