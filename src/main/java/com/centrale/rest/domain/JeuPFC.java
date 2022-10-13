@@ -1,13 +1,12 @@
 package com.centrale.rest.domain;
 
 import java.util.Objects;
-import java.util.Scanner;
 
 public class JeuPFC {
     public String playPFC(String choixJ1, String choixJ2) {
 
-        Player OBJchoixJ1 = null;
-        Player OBJchoixJ2 = null;
+        Hand OBJchoixJ1 = null;
+        Hand OBJchoixJ2 = null;
 
         if (Objects.equals(choixJ1, "P")) {
             OBJchoixJ1 = new Pierre();

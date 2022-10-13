@@ -1,6 +1,6 @@
 package com.centrale.rest.domain;
 
-public class Pierre implements Player{
+public class Pierre implements Hand {
     public int playWith(Pierre p){
         return 0;
     }
@@ -10,7 +10,7 @@ public class Pierre implements Player{
     public int playWith(Ciseaux c){
         return 1;
     }
-    public int playWith(Player p){
+    public int playWith(Hand p){
         return p.playWith(this);
     }
 }
