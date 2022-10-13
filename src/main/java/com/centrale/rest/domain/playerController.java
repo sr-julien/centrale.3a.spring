@@ -28,8 +28,8 @@ public class playerController {
     }
 
     @GetMapping(value="/get/{id}")
-    public int getInfo(@PathVariable int id) {
-        return id;
+    public Player getInfo(@PathVariable int id) {
+        return listPlayer.get(id-1);
     }
 
     @GetMapping(value="/get/top")
