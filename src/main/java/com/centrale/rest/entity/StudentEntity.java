@@ -1,14 +1,16 @@
 package com.centrale.rest.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class Student {
+public class StudentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +19,7 @@ public class Student {
     private String lastname;
     private String firstname;
 
-    @ManyToOne
-    @JoinColumn(name="school_class_id", nullable=false)
-    private SchoolClass schoolClass;
+    @ManyToOne()
+    @JoinColumn(name="schoolClassId", nullable=false)
+    private SchoolClassEntity schoolClass;
 }

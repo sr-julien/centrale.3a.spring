@@ -1,15 +1,18 @@
 package com.centrale.rest.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class SchoolClass {
+public class SchoolClassEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,8 +20,8 @@ public class SchoolClass {
 
     private String name;
 
-    @OneToMany(mappedBy="schoolClass")
-    private Set<Student> students;
+    @OneToMany(mappedBy="schoolClass", cascade = CascadeType.ALL)
+    private Set<StudentEntity> students;
 
 
 }
