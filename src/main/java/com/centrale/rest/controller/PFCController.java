@@ -3,7 +3,6 @@ package com.centrale.rest.controller;
 import com.centrale.rest.domain.*;
 import com.centrale.rest.service.DataService;
 import lombok.AllArgsConstructor;
-import netscape.javascript.JSObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,16 +49,19 @@ public class PFCController {
     }
 
     @PostMapping(value = "/player/register")
-    public void registerPlayer(@RequestBody Profile profile){
-        dataService.registerProfile(profile);
+    public void registerPlayer(@RequestBody Player player){
+        dataService.registerPlayer(player);
     }
 
     @GetMapping(value = "/player")
-    public ArrayList<Profile> getProfiles() {return dataService.getProfiles();}
+    public ArrayList<Player> getPlayers() {return dataService.getPlayers();}
+
+    @GetMapping(value = "/player/get/{playerId}")
+    public Player getPlayer(@PathVariable int playerId){return dataService.getPlayerById(playerId);}
 
     @PutMapping(value = "/player/update/{playerId}")
-    public void updateProfile(@PathVariable int playerId, @RequestBody Profile profile){
-        dataService.updateProfile(playerId, profile);
+    public void updateProfile(@PathVariable int playerId, @RequestBody Player player){
+        dataService.updateProfile(playerId, player);
     }
 
 }
