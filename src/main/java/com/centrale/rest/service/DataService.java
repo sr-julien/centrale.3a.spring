@@ -1,9 +1,11 @@
 package com.centrale.rest.service;
 
 import com.centrale.rest.data.InMemoryData;
+import com.centrale.rest.domain.Profile;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -20,5 +22,15 @@ public class DataService {
         return data.getOccurrences();
     }
 
+    public void registerProfile(Profile p) {data.getProfiles().add(p);}
+    public ArrayList<Profile> getProfiles() {return data.getProfiles();}
 
+    public void updateProfile(int playerId, Profile profile) {
+        ArrayList<Profile> profiles = data.getProfiles();
+        for (Profile p : profiles) {
+            if (p.getId() == playerId) {
+                p = profile;
+            }
+        }
+    }
 }
