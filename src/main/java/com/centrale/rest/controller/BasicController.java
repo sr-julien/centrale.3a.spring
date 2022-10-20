@@ -31,5 +31,4 @@ public class BasicController {
     public Map<Long, Integer> getStatisticsSeries(){
         return dataService.getOccurences();
     }
-
 }
