@@ -29,8 +29,8 @@ public class RestApplication {
             SchoolClassEntity schoolClass = new SchoolClassEntity();
             schoolClass.setName("3A Info");
             StudentEntity studentEntity = new StudentEntity();
-            studentEntity.setFirstname("John");
-            studentEntity.setLastname("Doe");
+            studentEntity.setFirstname("Tun");
+            studentEntity.setLastname("LeBG");
             studentEntity.setSchoolClass(schoolClass);
             HashSet<StudentEntity> students = new HashSet<>();
             students.add(studentEntity);
