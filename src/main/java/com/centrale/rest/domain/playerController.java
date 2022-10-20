@@ -20,7 +20,7 @@ public class playerController {
         return p;
     }
 
-    @PostMapping(value="/update/{id}")
+    @PutMapping(value="/update/{id}")
     public Player update(@RequestBody Player p, @PathVariable int id) {
         listPlayer.set(id, p);
         p.setId(id);
