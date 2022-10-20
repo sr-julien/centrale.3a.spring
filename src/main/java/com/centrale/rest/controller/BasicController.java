@@ -32,4 +32,11 @@ public class BasicController {
         return dataService.getOccurences();
     }
 
+    @GetMapping(value = "/nico")
+    public String getNico(){
+        return "Nico t'es moche";
+    }
+
 }
+
+

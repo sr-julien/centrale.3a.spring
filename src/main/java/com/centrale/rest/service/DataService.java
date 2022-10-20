@@ -1,6 +1,7 @@
 package com.centrale.rest.service;
 
 import com.centrale.rest.data.InMemoryData;
+import com.centrale.rest.domain.Profile;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,11 @@ public class DataService {
 
     public Map<Long, Integer> getOccurences(){
         return data.getOccurrences();
+    }
+    public Map<Integer,Profile> getProfiles() {return data.getProfiles();}
+
+    public void addProfile(Profile profile){
+        data.getProfiles().put(profile.getId(), profile);
     }
 
 
