@@ -1,5 +1,6 @@
 package com.centrale.rest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudentEntity {
+public class  StudentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +21,7 @@ public class StudentEntity {
     private String firstname;
 
     @ManyToOne()
+    @JsonIgnore
     @JoinColumn(name="schoolClassId", nullable=false)
     private SchoolClassEntity schoolClass;
 }
