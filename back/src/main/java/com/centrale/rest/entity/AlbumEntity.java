@@ -1,6 +1,5 @@
 package com.centrale.rest.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SchoolClassEntity {
+public class AlbumEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
