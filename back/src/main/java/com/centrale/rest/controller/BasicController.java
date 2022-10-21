@@ -28,18 +28,11 @@ public class BasicController {
 
 
     @GetMapping(value = "/init")
-    public Iterable<AlbumEntity> init() {
+    public String init() {
         // Clean the database
         imageRepository.deleteAll();
         albumRepository.deleteAll();
-        // Create an album
-        AlbumEntity album = new AlbumEntity();
-        Set<ImageEntity> images = new HashSet<>();
-        album.setImages(images);
-        album.setName("Album 1");
-        albumRepository.save(album);
-        // Return the albums
-        return albumRepository.findAll();
+        return "Database cleaned";
     }
 
     @Configuration
@@ -68,9 +61,14 @@ public class BasicController {
         return albumRepository.findAll();
     }
 
-    @PostMapping(value = "/addAlbum")
-    public AlbumEntity addAlbum(@RequestBody AlbumEntity albumEntity) {
-        return albumRepository.save(albumEntity);
+    @GetMapping(value = "/addAlbum/{name}")
+    public AlbumEntity addAlbum(@PathVariable String name) {
+        AlbumEntity album = new AlbumEntity();
+        Set<ImageEntity> images = new HashSet<>();
+        album.setImages(images);
+        album.setName(name);
+        albumRepository.save(album);
+        return album;
     }
 
     @PostMapping(value = "/addImage/{id}")
