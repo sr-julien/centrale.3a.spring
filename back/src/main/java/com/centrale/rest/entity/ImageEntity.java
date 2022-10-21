@@ -10,16 +10,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudentEntity {
+public class ImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private String lastname;
-    private String firstname;
+    private String url;
 
     @ManyToOne()
-    @JoinColumn(name="schoolClassId", nullable=false)
-    private SchoolClassEntity schoolClass;
+    @JoinColumn(name="AlbumId", nullable=false)
+    private AlbumEntity album;
 }

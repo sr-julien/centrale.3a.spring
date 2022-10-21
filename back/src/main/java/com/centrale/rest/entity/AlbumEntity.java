@@ -16,11 +16,10 @@ public class AlbumEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
 
-    @OneToMany(mappedBy="schoolClass", cascade = CascadeType.ALL)
-    private Set<StudentEntity> students;
+    @OneToMany(mappedBy="album", cascade = CascadeType.ALL)
+    private Set<ImageEntity> images;
 
 
 }

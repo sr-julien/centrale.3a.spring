@@ -1,7 +1,7 @@
 package com.centrale.rest.repository;
 
-import com.centrale.rest.entity.SchoolClassEntity;
+import com.centrale.rest.entity.AlbumEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface SchoolClassRepository extends CrudRepository<SchoolClassEntity, Long> {
+public interface AlbumRepository extends CrudRepository<AlbumEntity, Long> {
 }
