@@ -7,6 +7,24 @@ const urls = [
 
 $(document).ready(function () {
 
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+    
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+    
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
+
+    var albumId = getUrlParameter('id');
+
     async function init() {
         const response = await fetch('http://localhost:8090/init');
         const res = await response.text();
@@ -62,8 +80,8 @@ $(document).ready(function () {
     // Update the page with the new album
     async function updatePage() {
         $(".image-box").remove();
-        const albums = await getAlbums();
-        const album = albums[0];
+        const album = await getAlbum(albumId);
+        console.log(album);
         const images = album.images;
         for (let i = 0; i < images.length; i++) {
             $(".grid").prepend('<div class="image-box"><img src="' + images[i].url + '" alt="image"></div>');
@@ -102,7 +120,7 @@ $(document).ready(function () {
         }
     });
 
-    $("a").on("click", function () {
+    $("#init").on("click", function () {
         init().then(() => {
             updatePage();
         });

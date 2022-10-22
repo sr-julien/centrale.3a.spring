@@ -37,7 +37,7 @@ h1 {
     padding: 12px;
     margin: 0;
     cursor: pointer;
-    animation: fade-in 1s ease-in-out;
+    margin-bottom: 30px;
 }
 
 .image-box img {
@@ -58,6 +58,7 @@ h1 {
     border-style: dotted;
     border-width: 2px;
     border-color: black;
+    margin-bottom: 40px;
 }
 
 h2 {
@@ -74,7 +75,7 @@ h3 {
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
     font-size: 1rem;
-    margin: 10px;
+    margin-top: 10px;
     padding: 0;
     text-align: center;
 }

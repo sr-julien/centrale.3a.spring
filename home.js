@@ -66,14 +66,14 @@ $(document).ready(function () {
         for (let i = 0; i < albums.length; i++) {
             const url = albums[i].images[0].url
             console.log(url);
-            $(".grid").prepend(
-                '<div class="image-box" id="album'
-                + String(albums[i].id) + '"><img src="' 
-                + url + '" alt="album'
-                + String(albums[i].id) + '"><h3>'
-                +albums[i].name + '</h3></div>');
+            div = document.createElement("div");
+            div.className = "image-box";
+            div.onclick = function () { window.location.href = "album.html?id=" + String(albums[i].id) };
+            div.innerHTML = "<img src=" + url + '" alt="album' + String(albums[i].id) + '"><h3>' + albums[i].name + '</h3>'
+            $(".grid").prepend(div);
+
         }
-        
+
     }
 
     start().then(() => {
@@ -81,31 +81,31 @@ $(document).ready(function () {
     });
 
     // Add a new image to the album with the URL in the input box
-    $("button").on("click", function () {
-        console.log("add image");
-        const id = $("h1").attr("id");
-        const url = $("#image-url").val();
-        console.log(url);
-        addImage(id, url).then(() => {
-            updatePage();
-        });
-        $("#image-url").val("");
+    $("button").on("click", async function () {
+        console.log("create album");
+        const name = $("#album-name").val();
+        const album = await createAlbum(name)
+        const id = album.id;
+        console.log(id);
+        await addImage(id, urls[0]);
+        updatePage();
+        $("#album-name").val("");
     });
 
-    $("#image-url").on("keypress", function (e) {
+    $("#album-name").on("keypress", async function (e) {
         if (e.which === 13) {
-            console.log("add image");
-            const id = $("h1").attr("id");
-            const url = $("#image-url").val();
-            console.log(url);
-            addImage(id, url).then(() => {
-                updatePage();
-            });
-            $("#image-url").val("");
+            console.log("create album");
+            const name = $("#album-name").val();
+            const album = await createAlbum(name)
+            const id = album.id;
+            console.log(id);
+            await addImage(id, urls[0]);
+            updatePage();
+            $("#album-name").val("");
         }
     });
 
-    $("a").on("click", function () {
+    $("#init").on("click", function () {
         init().then(() => {
             updatePage();
         });
