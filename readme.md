@@ -4,7 +4,9 @@
 
 ## Description
 
-Ce projet est une application web permettant de **gérer une simple gallerie d'images**. Il est possible d'importer des nouvelles photos à partir d'URL. Ces URL seront stockées dans une base de données et seront affichées sur la page d'accueil.
+Ce projet est une application web permettant de **gérer une simple gallerie d'images**. Cette application permet d'ajouter des images à des albums. Il est possible d'importer des nouvelles photos à partir d'URL. Ces URL seront stockées dans une base de données et seront affichées sur la page d'accueil.
+
+L'application fournit également la possibilité de supprimer les images et les albums. On peut également créer des nouveaux albums.
 
 Ce projet utilise le framework Java Spring Boot. Les URLs sont stockées dans une base de données gérée à l'aide de PostgreSQL.
 
@@ -25,7 +27,9 @@ Ce projet utilise le framework Java Spring Boot. Les URLs sont stockées dans un
 5. Lancer le projet
 6. Ouvrir le fichier index.html puis tester les différentes fonctionnalités
 
-Le projet initialisera automatiquement la base de données avec des données de test. Ces données peuvent être réinitialisées à l'aide du bouton "reset" sur la page d'accueil.
+Le projet initialisera automatiquement la base de données avec des données de test. Ces données peuvent être réinitialisées à l'aide du bouton "reset" sur la page d'accueil. Les nouveaux albums sont également créés avec une image de test qui peut être supprimée après la création.
+
+Pour accéder à la page d'un album à partir d'un URL, il faut fournir son id comme ceci : `./album.html?id=27` (attention : les id ne commencent pas forcément à 1)
 
 ## Tester l'API
 
@@ -37,3 +41,5 @@ Les routes existantes sont les suivantes :
 - `GET /addAlbum/{name}` : ajoute un album avec le nom spécifié
 - `POST /addImage/{id}` : ajoute une image à l'album correspondant à l'ID *(le corps de la requête doit contenir l'URL de l'image)*
 - `GET /init` : vide la base de données
+- `DELETE /deleteAlbum/{id}` : supprime l'album correspondant à l'ID (et ses images)
+- `DELETE /deleteImage/{id}` : supprime l'image correspondant à l'ID

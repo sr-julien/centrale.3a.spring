@@ -106,9 +106,14 @@ $(document).ready(function () {
             div = document.createElement("div");
             a = document.createElement("a");
             div.className = "image-box";
-            a.onclick = deleteImage(images[i].id);
+            a.onclick = async function () {
+                console.log("delete");
+                await deleteImage(images[i].id);
+                updatePage();
+            };
             a.textContent = "(delete image)";
-            div.innerHTML = "<img src=" + url + '" alt="image">' + a.outerHTML + "'"
+            div.innerHTML = "<img src=" + url + '" alt="image">'
+            div.appendChild(a);
             $(".grid").prepend(div);
         }
         $("h1").text(album.name);
@@ -148,6 +153,13 @@ $(document).ready(function () {
     $("#init").on("click", function () {
         init().then(() => {
             updatePage();
+        });
+    });
+
+    $("#delete").on("click", function () {
+        deleteAlbum(albumId).then(() => {
+            console.log("album deleted");
+            window.location.href = "index.html";
         });
     });
 

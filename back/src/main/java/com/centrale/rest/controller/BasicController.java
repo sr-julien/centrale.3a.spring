@@ -83,4 +83,21 @@ public class BasicController {
 
     }
 
+    // Delete image
+    @DeleteMapping(value = "/deleteImage/{id}")
+    public String deleteImage(@PathVariable Long id) {
+        imageRepository.deleteById(id);
+        return "Image deleted";
+    }
+
+    // Delete album
+    @DeleteMapping(value = "/deleteAlbum/{id}")
+    public String deleteAlbum(@PathVariable Long id) {
+        for (ImageEntity imageEntity : albumRepository.findById(id).get().getImages()) {
+            imageRepository.deleteById(imageEntity.getId());
+        }
+        albumRepository.deleteById(id);
+        return "Album deleted";
+    }
+
 }
