@@ -87,3 +87,7 @@ input {
 button {
     margin-top: 5%;
 }
+
+#delete {
+    text-align: center;
+}

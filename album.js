@@ -57,6 +57,24 @@ $(document).ready(function () {
         return res;
     }
 
+    // Delete an image from the database
+    async function deleteImage(id) {
+        const response = await fetch('http://localhost:8090/deleteImage/' + String(Number(id)), {
+            method: 'DELETE'
+        });
+        const res = await response.text();
+        return res;
+    }
+
+    // Delete an album from the database
+    async function deleteAlbum(id) {
+        const response = await fetch('http://localhost:8090/deleteAlbum/' + String(Number(id)), {
+            method: 'DELETE'
+        });
+        const res = await response.text();
+        return res;
+    }
+
     // Create a new album
     async function createAlbum(name) {
         const response = await fetch('http://localhost:8090/addAlbum/' + name);
@@ -84,7 +102,14 @@ $(document).ready(function () {
         console.log(album);
         const images = album.images;
         for (let i = 0; i < images.length; i++) {
-            $(".grid").prepend('<div class="image-box"><img src="' + images[i].url + '" alt="image"></div>');
+            const url = images[i].url;
+            div = document.createElement("div");
+            a = document.createElement("a");
+            div.className = "image-box";
+            a.onclick = deleteImage(images[i].id);
+            a.textContent = "(delete image)";
+            div.innerHTML = "<img src=" + url + '" alt="image">' + a.outerHTML + "'"
+            $(".grid").prepend(div);
         }
         $("h1").text(album.name);
         $("h1").attr("id", album.id);
