@@ -6,22 +6,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudentEntity {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String lastname;
-    private String firstname;
+    private String lastName;
+    private String firstName;
+    private Date birthDayDate;
 
-    @ManyToOne()
     @JsonIgnore
-    @JoinColumn(name="schoolClassId", nullable=false)
-    private SchoolClassEntity schoolClass;
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    private Set<Loan> clienLoan;
 }

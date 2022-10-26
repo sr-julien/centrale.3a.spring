@@ -1,27 +1,29 @@
 package com.centrale.rest.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudentEntity {
-
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String lastname;
-    private String firstname;
+    private Date loanBeginning;
+    private Date loanEnd;
 
     @ManyToOne()
-    @JsonIgnore
-    @JoinColumn(name="schoolClassId", nullable=false)
-    private SchoolClassEntity schoolClass;
+    @JoinColumn(name="clientId", nullable=false)
+    private Client borrower;
+
+    @ManyToOne()
+    @JoinColumn(name="bookId", nullable=false)
+    private Book borrowedBook;
 }
