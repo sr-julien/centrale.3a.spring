@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -24,6 +24,6 @@ public class Client {
     private Date birthDayDate;
 
     @JsonIgnore
-    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="borrower", cascade = CascadeType.ALL)
     private Set<Loan> clienLoan;
 }

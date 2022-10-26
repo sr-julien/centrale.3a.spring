@@ -1,7 +1,9 @@
 package com.centrale.rest;
 
+import com.centrale.rest.entity.Client;
 import com.centrale.rest.entity.SchoolClassEntity;
 import com.centrale.rest.entity.StudentEntity;
+import com.centrale.rest.repository.ClientRepository;
 import com.centrale.rest.repository.SchoolClassRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Date;
 import java.util.HashSet;
 
 
@@ -23,7 +26,7 @@ public class RestApplication {
 
     // Simply to execute some code after startup
     @Bean
-    public CommandLineRunner demo(SchoolClassRepository schoolClassRepository) {
+    public CommandLineRunner demo(SchoolClassRepository schoolClassRepository, ClientRepository clientRepository) {
         return (args) -> {
             log.info("Create and save school class");
             SchoolClassEntity schoolClass = new SchoolClassEntity();
@@ -36,6 +39,12 @@ public class RestApplication {
             students.add(studentEntity);
             schoolClass.setStudents(students);
             schoolClassRepository.save(schoolClass);
+
+            Client client = new Client();
+            client.setFirstName("Jean-Baptiste");
+            client.setLastName("Durand");
+            client.setBirthDayDate(new Date(100,7,8));
+            clientRepository.save(client);
         };
     }
 

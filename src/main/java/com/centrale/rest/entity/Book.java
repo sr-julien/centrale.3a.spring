@@ -22,6 +22,6 @@ public class Book {
     private boolean onlyForAdult;
 
     @JsonIgnore
-    @OneToMany(mappedBy="book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="borrowedBook", cascade = CascadeType.ALL)
     private Set<Loan> bookLoan;
 }
