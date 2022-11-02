@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.servlet.http.Cookie;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,7 @@ public class UserEntity {
     private String username;
     private String email;
     private String hashedPassword;
+    private String sessionId = "";
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private Set<PostEntity> posts;
