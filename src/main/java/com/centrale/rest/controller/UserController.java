@@ -51,16 +51,6 @@ public class UserController {
         return null;
     }
 
-    @GetMapping(value = "/getAllPosts")
-    public List<PostEntity> getAllPosts( HttpServletRequest httpServletRequest,
-                                         HttpServletResponse httpServletResponse) {
-        List<PostEntity> posts = new ArrayList<PostEntity>();
-        postRepository.findAll().forEach(posts::add);
-        return posts;
-    }
-
-
-
     @PostMapping(value = "/user/login")
     public UserEntity login(@RequestBody UserDTO userData,
                             HttpServletRequest httpServletRequest,
@@ -83,7 +73,11 @@ public class UserController {
             UserEntity user = userRepository.findUserEntitiesByEmail(ValueEmailCookie);
 
 
-            if (Objects.equals(ValueSessionIdCookie, user.getSessionId())) {
+            if (passwordAuthentification.authenticate(
+                    ValueSessionIdCookie.toCharArray(),
+                    user.getSessionId()
+                    ))
+            {
                 System.out.println("ACCESS WITH COOKIE GRANTED");
                 httpServletResponse.setStatus(200);
                 return user;
@@ -107,6 +101,13 @@ public class UserController {
                     userData.getPassword().toCharArray(),
                     user.getHashedPassword()
             );
+
+            // if access granted, 2 cookies are producted
+            // 1 : email
+            // 2 : sessionID
+            // We store the hashed sessionId in DB to enable to keep connection alive even when
+            // the user close the session and avoid security problem
+
             if (AccessGranted) {
                 UUID valueUUID = UUID.randomUUID();
                 Cookie sessionIdCookie = new Cookie("sessionId", valueUUID.toString());
@@ -114,12 +115,19 @@ public class UserController {
                 sessionIdCookie.setHttpOnly(true);
                 //sessionIdCookie.setSecure(true);
                 httpServletResponse.addCookie(sessionIdCookie);
-                user.setSessionId(valueUUID.toString());
+
+
+                String hashedSessionId = passwordAuthentification.hash(
+                        valueUUID.toString().toCharArray()
+                );
+
+                user.setSessionId(hashedSessionId);
                 Cookie emailCookie = new Cookie("email", userData.getEmail());
-                sessionIdCookie.setPath("/");
+                emailCookie.setPath("/");
                 emailCookie.setHttpOnly(true);
                 //emailCookie.setSecure(true);
                 httpServletResponse.addCookie(emailCookie);
+
                 System.out.println("ACCESS WITH PASSWORD GRANTED");
                 userRepository.save(user);
                 httpServletResponse.setStatus(200);
@@ -131,17 +139,61 @@ public class UserController {
         }
     }
 
+    private void eraseCookie(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null)
+            for (Cookie cookie : cookies) {
+                cookie.setValue("");
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                resp.addCookie(cookie);
+            }
+    }
+
     @GetMapping(value = "/user/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
 
-        Cookie emailCookieRemove = new Cookie("email", "");
-        emailCookieRemove.setMaxAge(0);
-        response.addCookie(emailCookieRemove);
-        Cookie sessionIdCookieRemove = new Cookie("sessionId", "");
-        sessionIdCookieRemove.setMaxAge(0);
-        response.addCookie(sessionIdCookieRemove);
+        eraseCookie(request, response);
 
+//        Cookie emailCookieRemove = new Cookie("email", "");
+//        emailCookieRemove.setMaxAge(0);
+//        response.addCookie(emailCookieRemove);
+//        Cookie sessionIdCookieRemove = new Cookie("sessionId", "");
+//        sessionIdCookieRemove.setMaxAge(0);
+//        response.addCookie(sessionIdCookieRemove);
+
+        System.out.println("User successfully logout");
         response.setStatus(200);
         return "User successfully logout";
+    }
+
+    private boolean authService(String sessionID, String email) {
+        boolean flag = false;
+
+        UserEntity user = userRepository.findUserEntitiesByEmail(email);
+
+        flag = passwordAuthentification.authenticate(sessionID.toCharArray(), user.getSessionId());
+
+        return flag;
+    }
+
+    @GetMapping(value = "/user/auth")
+    public boolean auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String ValueEmailCookie = Arrays.stream(request.getCookies())
+                    .filter(c -> "email".equals(c.getName()))
+                    .map(Cookie::getValue)
+                    .findAny().get();
+            String ValueSessionIdCookie = Arrays.stream(request.getCookies())
+                    .filter(c -> "sessionId".equals(c.getName()))
+                    .map(Cookie::getValue)
+                    .findAny().get();
+
+            response.setStatus(200);
+            return authService(ValueSessionIdCookie, ValueEmailCookie);
+        } catch (Exception e) {
+            response.sendError(401, "Invalid Credentials");
+            return false;
+        }
     }
 }
