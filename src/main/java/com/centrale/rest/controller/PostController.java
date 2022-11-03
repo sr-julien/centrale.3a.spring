@@ -152,7 +152,7 @@ public class PostController {
     }
 
     @PutMapping(value = "posts/find/update")
-    public String updatePost(HttpServletRequest request,
+    public PostEntity updatePost(HttpServletRequest request,
                              HttpServletResponse response,
                              @RequestBody PostDTO postDTO) throws IOException {
 
@@ -166,7 +166,7 @@ public class PostController {
             {
                 post.setContent(postDTO.getContent());
                 postRepository.save(post);
-                return "Post successfully updated";
+                return post;
 
             } else {
                 response.sendError(404, "Post not found");
