@@ -24,6 +24,6 @@ public class UserEntity {
     private String hashedPassword;
     private String sessionId = "";
 
-    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="author", cascade = CascadeType.ALL)
     private Set<PostEntity> posts;
 }

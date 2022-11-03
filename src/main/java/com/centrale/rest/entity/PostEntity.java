@@ -34,5 +34,5 @@ public class PostEntity {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="userId", nullable = false)
-    private UserEntity user;
+    private UserEntity author;
 }

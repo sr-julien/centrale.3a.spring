@@ -15,7 +15,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Controller
@@ -29,6 +28,46 @@ public class UserController {
     UserRepository userRepository;
 
     PostRepository postRepository;
+
+    /*
+     * Util
+     */
+
+    public boolean authService(String sessionID, String email) {
+
+        boolean flag = false;
+
+        UserEntity user = userRepository.findUserEntitiesByEmail(email);
+
+        flag = passwordAuthentification.authenticate(sessionID.toCharArray(), user.getSessionId());
+
+        return flag;
+    }
+
+    public void eraseCookie(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null)
+            for (Cookie cookie : cookies) {
+                cookie.setValue("");
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                resp.addCookie(cookie);
+            }
+    }
+
+    public String getValueCookieFromRequest(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            String name) {
+        return Arrays.stream(request.getCookies())
+                .filter(c -> name.equals(c.getName()))
+                .map(Cookie::getValue)
+                .findAny().get();
+    }
+
+
+    /*
+     * Routes
+     */
 
     @PostMapping(value = "/user/register")
     public UserEntity registerUser(@RequestBody UserDTO userDTO,
@@ -78,13 +117,14 @@ public class UserController {
                     user.getSessionId()
                     ))
             {
-                System.out.println("ACCESS WITH COOKIE GRANTED");
+                System.out.println("User successfully login with cookies");
                 httpServletResponse.setStatus(200);
                 return user;
             } else {
                 httpServletResponse.sendError(401, "Invalid Credentials");
                 return null;
             }
+
         } catch (Exception e) {
 
             /*
@@ -128,7 +168,7 @@ public class UserController {
                 //emailCookie.setSecure(true);
                 httpServletResponse.addCookie(emailCookie);
 
-                System.out.println("ACCESS WITH PASSWORD GRANTED");
+                System.out.println("User successfully login with password");
                 userRepository.save(user);
                 httpServletResponse.setStatus(200);
                 return user;
@@ -137,17 +177,6 @@ public class UserController {
                 return null;
             }
         }
-    }
-
-    private void eraseCookie(HttpServletRequest req, HttpServletResponse resp) {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null)
-            for (Cookie cookie : cookies) {
-                cookie.setValue("");
-                cookie.setPath("/");
-                cookie.setMaxAge(0);
-                resp.addCookie(cookie);
-            }
     }
 
     @GetMapping(value = "/user/logout")
@@ -167,18 +196,10 @@ public class UserController {
         return "User successfully logout";
     }
 
-    private boolean authService(String sessionID, String email) {
-        boolean flag = false;
 
-        UserEntity user = userRepository.findUserEntitiesByEmail(email);
-
-        flag = passwordAuthentification.authenticate(sessionID.toCharArray(), user.getSessionId());
-
-        return flag;
-    }
 
     @GetMapping(value = "/user/auth")
-    public boolean auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public boolean authCookie(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String ValueEmailCookie = Arrays.stream(request.getCookies())
                     .filter(c -> "email".equals(c.getName()))
@@ -195,5 +216,16 @@ public class UserController {
             response.sendError(401, "Invalid Credentials");
             return false;
         }
+    }
+
+    @GetMapping(value = "/user/posts")
+    public List<PostEntity> getUserPosts(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (authCookie(request, response)) {
+            UserEntity author = userRepository.findUserEntitiesByEmail(getValueCookieFromRequest(request,
+                    response,
+                    "email"));
+            return postRepository.findAllByAuthor(author);
+        }
+        return null;
     }
 }

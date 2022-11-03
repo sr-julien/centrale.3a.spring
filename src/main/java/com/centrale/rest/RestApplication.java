@@ -34,7 +34,7 @@ public class RestApplication {
 
             PostEntity post1 = new PostEntity();
             post1.setTitle("My first Post");
-            post1.setUser(user1);
+            post1.setAuthor(user1);
             post1.setContent("Content of the first post");
 
             HashSet<PostEntity> postsUser1 = new HashSet<>();
@@ -48,4 +48,5 @@ public class RestApplication {
     public PasswordAuthentification PasswordAuthentification(){
         return new PasswordAuthentification();
     }
+
 }
