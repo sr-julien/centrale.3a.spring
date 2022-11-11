@@ -1,11 +1,11 @@
 package com.centrale.rest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -16,9 +16,9 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Date loanBeginning;
-    private Date loanEnd;
+    private boolean returned = false;
 
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name="clientId", nullable=false)
     private Client borrower;

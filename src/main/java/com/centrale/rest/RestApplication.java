@@ -1,52 +1,56 @@
 package com.centrale.rest;
 
+import com.centrale.rest.entity.Book;
 import com.centrale.rest.entity.Client;
-import com.centrale.rest.entity.SchoolClassEntity;
-import com.centrale.rest.entity.StudentEntity;
+import com.centrale.rest.repository.BookRepository;
 import com.centrale.rest.repository.ClientRepository;
-import com.centrale.rest.repository.SchoolClassRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
-import java.util.HashSet;
 
 
 @SpringBootApplication
 public class RestApplication {
-
-    private static final Logger log = LoggerFactory.getLogger(RestApplication.class);
     public static void main(String[] args) {
         SpringApplication.run(RestApplication.class, args);
     }
 
     // Simply to execute some code after startup
     @Bean
-    public CommandLineRunner demo(SchoolClassRepository schoolClassRepository, ClientRepository clientRepository) {
+    public CommandLineRunner demo(ClientRepository clientRepository, BookRepository bookRepository) {
         return (args) -> {
-            log.info("Create and save school class");
-            SchoolClassEntity schoolClass = new SchoolClassEntity();
-            schoolClass.setName("3A Info");
-            StudentEntity studentEntity = new StudentEntity();
-            studentEntity.setFirstname("John");
-            studentEntity.setLastname("Doe");
-            studentEntity.setSchoolClass(schoolClass);
-            HashSet<StudentEntity> students = new HashSet<>();
-            students.add(studentEntity);
-            schoolClass.setStudents(students);
-            schoolClassRepository.save(schoolClass);
-
             Client client = new Client();
-            client.setFirstName("Jean-Baptiste");
-            client.setLastName("Durand");
-            client.setBirthDayDate(new Date(100,7,8));
+            client.setFirstName("Eva");
+            client.setLastName("Porée");
+            client.setBirthDayYear(1997);
             clientRepository.save(client);
+
+            Book book1 = new Book();
+            book1.setTitle("Headd First Java");
+            book1.setAuthor("Kathy Sierra");
+            book1.setOnlyForAdult(false);
+
+            Book book2 = new Book();
+            book2.setTitle("The Exorcist");
+            book2.setAuthor("William Peter Blatty");
+            book2.setOnlyForAdult(true);
+
+            Book book3 = new Book();
+            book3.setTitle("Les plus belles randonnées de France");
+            book3.setAuthor("Patrick Espel");
+            book3.setOnlyForAdult(false);
+
+            Book book4 = new Book();
+            book4.setTitle("Histoire de Marseille");
+            book4.setAuthor("Émile Temime");
+            book4.setOnlyForAdult(false);
+
+            bookRepository.save(book1);
+            bookRepository.save(book2);
+            bookRepository.save(book3);
+            bookRepository.save(book4);
         };
     }
-
-
 }

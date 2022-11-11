@@ -4,9 +4,8 @@
 
 Coder un serveur lié une base de données qui gére une bibliothèque, pour pouvoir emprunter, rendre ... des livres.
 
-## Propriétés
+## Routes
 
-### Client
+Toutes les routes sont dans ce fichier exporté de Postman : [lien](./Library.postman_collection.json)
 
-**Attributs**
- - 
+Il faut exécuter les requêtes dans l'ordre pour que tout se déroule bien.

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,5 +24,9 @@ public class Book {
 
     @JsonIgnore
     @OneToMany(mappedBy="borrowedBook", cascade = CascadeType.ALL)
-    private Set<Loan> bookLoan;
+    private Set<Loan> bookLoan = new HashSet<>();
+
+    public void addLoan(Loan loan){
+        bookLoan.add(loan);
+    }
 }

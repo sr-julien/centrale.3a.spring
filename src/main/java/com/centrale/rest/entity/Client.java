@@ -1,12 +1,11 @@
 package com.centrale.rest.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,11 +18,15 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String lastName;
     private String firstName;
-    private Date birthDayDate;
+    private String lastName;
+    private int birthDayYear;
+    private int numberBookAllowed = 3;
 
-    @JsonIgnore
     @OneToMany(mappedBy="borrower", cascade = CascadeType.ALL)
-    private Set<Loan> clienLoan;
+    private Set<Loan> clientLoan = new HashSet<>();
+
+    public void addLoan(Loan loan){
+        clientLoan.add(loan);
+    }
 }
