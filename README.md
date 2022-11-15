@@ -2,7 +2,7 @@
 
 ## Objectif
 
-Coder un serveur lié une base de données qui gére une bibliothèque, pour pouvoir emprunter, rendre ... des livres.
+Coder un serveur lié à une base de données qui gére une bibliothèque, pour pouvoir emprunter, rendre ... des livres.
 
 ## Routes
 
