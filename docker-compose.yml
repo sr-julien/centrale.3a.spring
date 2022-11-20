@@ -3,27 +3,27 @@ version: '3.8'
 services:
   database:
     image: postgres:13-alpine
-    container_name: java_school_db
+    container_name: java_project_db
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: java_school
+      POSTGRES_DB: java_project
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     volumes:
-      - java-school-data:/var/lib/postgresql/data
+      - java-project-data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: java_school-pgadmin
+    container_name: java_project-pgadmin
     ports:
       - "5050:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: user@email.com
       PGADMIN_DEFAULT_PASSWORD: password
     volumes:
-      - java-school-pgadmin-data:/var/lib/pgadmin
+      - java-project-pgadmin-data:/var/lib/pgadmin
 
 volumes:
-  java-school-data:
-  java-school-pgadmin-data:
+  java-project-data:
+  java-project-pgadmin-data:

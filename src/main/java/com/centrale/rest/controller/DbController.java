@@ -59,7 +59,4 @@ public class DbController {
         return school;
     }
 
-
-
-
 }
