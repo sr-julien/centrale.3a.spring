@@ -1,0 +1,3 @@
+Dans ce projet, j'ai créé une base de donnée sur Postgresql. Cette  base de donnée possède deux entités, les personnes et les colocations. Chaque personne a un id, une colocation et un nom. Chaque colocation a un nom.
+
+Avec le controleur, on peut afficher la liste des personnes et des colocations. On peut ajouter une colocation. On peut supprimer une personne. On peut enfin chercher une colocation ou une personne par son id.
