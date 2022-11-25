@@ -1,0 +1,2 @@
+API pour permet de gérer des commandes (Amazon par exemple). Il y a une partie avec pour les commandes (Delivery) et une pour les personnes (Person).
+On peut ajouter des personnes, avoir la liste de toutes les personnes et obtenir qu'une seule personne grâce à son Id. On peut faire pareil pour les commandes.
